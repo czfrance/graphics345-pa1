@@ -27,17 +27,17 @@ void MyCanvas::fillRect(const GRect& rect, const GColor& color) {
         for (int x = GRoundToInt(r.left); x < GRoundToInt(r.right); ++x) {
             GPixel* curr = fDevice.getAddr(x, y);
 
-            if (color.a == 0.0f) {
-                ;
-            }
+            // if (color.a == 0.0f) {
+            //     ;
+            // }
 
-            else if (color.a == 1.0f) {
-                GPixel newP = GPixel_PackARGB(GRoundToInt(color.a * 255), GRoundToInt(color.r * 255), 
-                GRoundToInt(color.g * 255), GRoundToInt(color.b * 255));
-                *curr = newP;
-            }
+            // else if (color.a == 1.0f) {
+            //     GPixel newP = GPixel_PackARGB(GRoundToInt(color.a * 255), GRoundToInt(color.r * 255), 
+            //     GRoundToInt(color.g * 255), GRoundToInt(color.b * 255));
+            //     *curr = newP;
+            // }
 
-            else {
+            // else {
                 int da = GPixel_GetA(*curr);
                 int dr = GPixel_GetR(*curr);
                 int dg = GPixel_GetG(*curr);
@@ -59,7 +59,7 @@ void MyCanvas::fillRect(const GRect& rect, const GColor& color) {
                 GPixel newP = GPixel_PackARGB(fa, fr, fg, fb);
                 //this is a dereference, this means you can put stuff in it
                 *curr = newP;
-            }
+            // }
         }
     }
     
