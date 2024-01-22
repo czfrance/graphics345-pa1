@@ -25,13 +25,11 @@ void MyCanvas::fillRect(const GRect& rect, const GColor& color) {
     //calculate the blend
     for (int y = GRoundToInt(r.top); y < GRoundToInt(r.bottom); ++y) {
         for (int x = GRoundToInt(r.left); x < GRoundToInt(r.right); ++x) {
-            //TODO
-
             // 1. check for alpha = 0 and alpha = 255 first!!!
-            // else:
+            int alpha = GRoundToInt(color.a * 255);
             GPixel* curr = fDevice.getAddr(x, y);
 
-            if (color.a == 0.0) {
+            if (alpha == 0) {
                 ;
             }
 
