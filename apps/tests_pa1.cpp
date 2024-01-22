@@ -19,6 +19,7 @@ static bool expect_pixels_value(const GBitmap& bm, GPixel pixel) {
     bool success = true;
     visit_pixels(bm, [&](int x, int y, GPixel* p) {
         if (*p != pixel) {
+            printf("expected %x  actual %x\n", pixel, *p);
             success = false;
         }
     });
@@ -30,13 +31,14 @@ static void test_clear(GTestStats* stats) {
         GColor color;
         GPixel pixel;
     } rec[] = {
-        { {1,1,1,1}, GPixel_PackARGB(0xFF, 0xFF, 0xFF, 0xFF) },
-        { {0,0,0,1}, GPixel_PackARGB(0xFF, 0, 0, 0) },
-        { {1,0,0,1}, GPixel_PackARGB(0xFF, 0xFF, 0, 0) },
-        { {0,1,0,1}, GPixel_PackARGB(0xFF, 0, 0xFF, 0) },
-        { {0,0,1,1}, GPixel_PackARGB(0xFF, 0, 0, 0xFF) },
-        { {0,0,0,0}, GPixel_PackARGB(0, 0, 0, 0) },
-        { {1,1,1,0}, GPixel_PackARGB(0, 0, 0, 0) },
+        { {1,0,0,1},     GPixel_PackARGB(0xFF, 0xFF, 0, 0) },
+        { {0,1,0,1},     GPixel_PackARGB(0xFF, 0, 0xFF, 0) },
+        { {0,0,1,1},     GPixel_PackARGB(0xFF, 0, 0, 0xFF) },
+        { {1,0,0,0.25f}, GPixel_PackARGB(0x40, 0x40, 0, 0) },
+        { {0,1,0,0.5f},  GPixel_PackARGB(0x80, 0, 0x80, 0) },
+        { {0,0,1,0.75f}, GPixel_PackARGB(0xBF, 0, 0, 0xBF) },
+        { {0,0,0,0},     GPixel_PackARGB(0, 0, 0, 0) },
+        { {1,1,1,0},     GPixel_PackARGB(0, 0, 0, 0) },
     };
 
     for (const auto& r : rec) {
@@ -45,7 +47,7 @@ static void test_clear(GTestStats* stats) {
         auto canvas = GCreateCanvas(bm);
         force_fill_pixels(bm, 0x12345678);  // init with garbage
         canvas->clear(r.color);
-        stats->expectTrue(expect_pixels_value(bm, r.pixel), "clear");
+        EXPECT_TRUE(stats, expect_pixels_value(bm, r.pixel));
     }
 }
 
@@ -68,6 +70,6 @@ static void test_rect_nodraw(GTestStats* stats) {
         bm.alloc(3, 3);
         auto canvas = GCreateCanvas(bm);
         canvas->fillRect(r, color);
-        stats->expectTrue(expect_pixels_value(bm, 0), "rect should not draw");
+        EXPECT_TRUE(stats, expect_pixels_value(bm, 0));
     }
 }

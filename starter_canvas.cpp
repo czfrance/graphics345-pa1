@@ -25,8 +25,6 @@ void MyCanvas::fillRect(const GRect& rect, const GColor& color) {
     //calculate the blend
     for (int y = GRoundToInt(r.top); y < GRoundToInt(r.bottom); ++y) {
         for (int x = GRoundToInt(r.left); x < GRoundToInt(r.right); ++x) {
-            // 1. check for alpha = 0 and alpha = 255 first!!!
-            // int alpha = GRoundToInt(color.a * 255);
             GPixel* curr = fDevice.getAddr(x, y);
 
             if (color.a == 0.0f) {
@@ -52,10 +50,10 @@ void MyCanvas::fillRect(const GRect& rect, const GColor& color) {
                 int sa_pm = GRoundToInt(color.a * 255);
 
                 //use the equation
-                int fr = sr_pm + (((255-sa_pm)*dr)/255);
-                int fg = sg_pm + (((255-sa_pm)*dg)/255);
-                int fb = sb_pm + (((255-sa_pm)*db)/255);
-                int fa = sa_pm + (((255-sa_pm)*da)/255);
+                int fr = sr_pm + ((((255-sa_pm)*dr) + 128) * 257 >> 16);
+                int fg = sg_pm + ((((255-sa_pm)*dg) + 128) * 257 >> 16);
+                int fb = sb_pm + ((((255-sa_pm)*db) + 128) * 257 >> 16);
+                int fa = sa_pm + ((((255-sa_pm)*da) + 128) * 257 >> 16);
 
                 //put the value back into the pixel itself
                 GPixel newP = GPixel_PackARGB(fa, fr, fg, fb);
