@@ -31,9 +31,9 @@ void MyCanvas::fillRect(const GRect& rect, const GColor& color) {
             // else:
             GPixel* curr = fDevice.getAddr(x, y);
 
-            // if (color.a == 0.0) {
-            //     ;
-            // }
+            if (color.a == 0.0) {
+                ;
+            }
 
             // else if (color.a == 1.0) {
             //     GPixel newP = GPixel_PackARGB(GRoundToInt(color.a * 255), GRoundToInt(color.r * 255), 
