@@ -74,6 +74,17 @@ std::string GDrawSomething(GCanvas* canvas, GISize dim) {
     // ...
     // canvas->clear(...);
     // canvas->fillRect(...);
+    GRect rect = GRect::XYWH(-25, -25, 70, 70);
 
-    return "tears in rain";
+    int delta = 8;
+    for (int i = 0; i < 200; i += delta) {
+        float r = 1-(i / 200.0f);
+        float g = 1-(std::abs(std::cos(i/40.0f)));
+        float b = 1-(std::abs(std::sin(i/50.0f)));
+        GColor color = {r, g, b, 0.3f};
+        canvas->fillRect(rect, color);
+        rect = rect.offset(delta, delta);
+    }
+
+    return "idk what this is help";
 }
