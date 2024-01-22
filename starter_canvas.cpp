@@ -22,32 +22,39 @@ void MyCanvas::fillRect(const GRect& rect, const GColor& color) {
     GRect r = GRect::LTRB(std::max(GRoundToInt(rect.left), 0), std::max(GRoundToInt(rect.top), 0),
                        std::min(GRoundToInt(rect.right), fDevice.width()), std::min(GRoundToInt(rect.bottom), fDevice.height()));
 
-    //calculate the blend
-    for (int y = GRoundToInt(r.top); y < GRoundToInt(r.bottom); ++y) {
-        for (int x = GRoundToInt(r.left); x < GRoundToInt(r.right); ++x) {
-            GPixel* curr = fDevice.getAddr(x, y);
+    
+    if (color.a == 0.0f) {
+        ;
+    }
 
-            if (color.a == 0.0f) {
-                ;
-            }
+    else if (color.a == 1.0f) {
+        GPixel newP = GPixel_PackARGB(GRoundToInt(color.a * 255), GRoundToInt(color.r * 255), 
+        GRoundToInt(color.g * 255), GRoundToInt(color.b * 255));
 
-            else if (color.a == 1.0f) {
-                GPixel newP = GPixel_PackARGB(GRoundToInt(color.a * 255), GRoundToInt(color.r * 255), 
-                GRoundToInt(color.g * 255), GRoundToInt(color.b * 255));
+        for (int y = GRoundToInt(r.top); y < GRoundToInt(r.bottom); ++y) {
+            for (int x = GRoundToInt(r.left); x < GRoundToInt(r.right); ++x) {
+                GPixel* curr = fDevice.getAddr(x, y);
                 *curr = newP;
             }
+        }
+    }
 
-            else {
+    else {
+        //turn color into premult
+        int sr_pm = GRoundToInt(color.r * color.a * 255);
+        int sg_pm = GRoundToInt(color.g * color.a * 255);
+        int sb_pm = GRoundToInt(color.b * color.a * 255);
+        int sa_pm = GRoundToInt(color.a * 255);
+        
+        //calculate the blend
+        for (int y = GRoundToInt(r.top); y < GRoundToInt(r.bottom); ++y) {
+            for (int x = GRoundToInt(r.left); x < GRoundToInt(r.right); ++x) {
+                GPixel* curr = fDevice.getAddr(x, y);
+
                 int da = GPixel_GetA(*curr);
                 int dr = GPixel_GetR(*curr);
                 int dg = GPixel_GetG(*curr);
                 int db = GPixel_GetB(*curr);
-
-                //turn color into premult
-                int sr_pm = GRoundToInt(color.r * color.a * 255);
-                int sg_pm = GRoundToInt(color.g * color.a * 255);
-                int sb_pm = GRoundToInt(color.b * color.a * 255);
-                int sa_pm = GRoundToInt(color.a * 255);
 
                 //use the equation
                 int fr = sr_pm + ((((255-sa_pm)*dr) + 128) * 257 >> 16);
