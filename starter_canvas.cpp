@@ -26,14 +26,14 @@ void MyCanvas::fillRect(const GRect& rect, const GColor& color) {
     for (int y = GRoundToInt(r.top); y < GRoundToInt(r.bottom); ++y) {
         for (int x = GRoundToInt(r.left); x < GRoundToInt(r.right); ++x) {
             // 1. check for alpha = 0 and alpha = 255 first!!!
-            int alpha = GRoundToInt(color.a * 255);
+            // int alpha = GRoundToInt(color.a * 255);
             GPixel* curr = fDevice.getAddr(x, y);
 
-            if (alpha == 0) {
+            if (color.a == 0.0f) {
                 ;
             }
 
-            else if (alpha == 255) {
+            else if (color.a == 1.0f) {
                 GPixel newP = GPixel_PackARGB(GRoundToInt(color.a * 255), GRoundToInt(color.r * 255), 
                 GRoundToInt(color.g * 255), GRoundToInt(color.b * 255));
                 *curr = newP;
