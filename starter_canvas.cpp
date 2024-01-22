@@ -41,8 +41,7 @@ void MyCanvas::fillRect(const GRect& rect, const GColor& color) {
             //     *curr = newP;
             // }
 
-            // else {
-
+            else {
                 int da = GPixel_GetA(*curr);
                 int dr = GPixel_GetR(*curr);
                 int dg = GPixel_GetG(*curr);
@@ -64,7 +63,7 @@ void MyCanvas::fillRect(const GRect& rect, const GColor& color) {
                 GPixel newP = GPixel_PackARGB(fa, fr, fg, fb);
                 //this is a dereference, this means you can put stuff in it
                 *curr = newP;
-            // }
+            }
         }
     }
     
