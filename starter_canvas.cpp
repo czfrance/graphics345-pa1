@@ -33,11 +33,11 @@ void MyCanvas::fillRect(const GRect& rect, const GColor& color) {
                 ;
             }
 
-            // else if (color.a == 1.0) {
-            //     GPixel newP = GPixel_PackARGB(GRoundToInt(color.a * 255), GRoundToInt(color.r * 255), 
-            //     GRoundToInt(color.g * 255), GRoundToInt(color.b * 255));
-            //     *curr = newP;
-            // }
+            else if (alpha == 255) {
+                GPixel newP = GPixel_PackARGB(GRoundToInt(color.a * 255), GRoundToInt(color.r * 255), 
+                GRoundToInt(color.g * 255), GRoundToInt(color.b * 255));
+                *curr = newP;
+            }
 
             else {
                 int da = GPixel_GetA(*curr);
