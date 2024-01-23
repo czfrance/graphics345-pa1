@@ -26,18 +26,21 @@ void MyCanvas::fillRect(const GRect& rect, const GColor& color) {
     int bottom = GRoundToInt(r.bottom);
     int left = GRoundToInt(r.left);
     int right = GRoundToInt(r.right);
+    int sa_pm = GRoundToInt(color.a * 255);
     
-    if (color.a == 0.0f) {
+    if (sa_pm == 0) {
         ;
     }
 
-    else if (color.a == 1.0f) {
+    else if (sa_pm == 255) {
         GPixel newP = GPixel_PackARGB(GRoundToInt(color.a * 255), GRoundToInt(color.r * 255), 
         GRoundToInt(color.g * 255), GRoundToInt(color.b * 255));
 
         for (int y = top; y < bottom; ++y) {
+            // printf("(%d, %d)\n", left, y);
             // GPixel* curr = fDevice.getAddr(left, y);
             for (int x = left; x < right; ++x) {
+                // printf("(%d, %d)\n", x, y);
                 GPixel* curr = fDevice.getAddr(x, y);
                 *curr = newP;
                 // curr++;
@@ -51,7 +54,6 @@ void MyCanvas::fillRect(const GRect& rect, const GColor& color) {
         int sr_pm = GRoundToInt(color.r * color.a * 255);
         int sg_pm = GRoundToInt(color.g * color.a * 255);
         int sb_pm = GRoundToInt(color.b * color.a * 255);
-        int sa_pm = GRoundToInt(color.a * 255);
 
         //calculate the blend
         for (int y = top; y < bottom; ++y) {
