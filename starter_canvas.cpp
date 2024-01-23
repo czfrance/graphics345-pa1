@@ -122,7 +122,7 @@ std::string GDrawSomething(GCanvas* canvas, GISize dim) {
         rect2 = rect2.offset(-dim.width/2, delta2);
     }
 
-    GRect rect3 = GRect::XYWH(dim.width-(dim.width / 2.5), dim.height/2.5, 10, 10);
+    GRect rect3 = GRect::XYWH(dim.width-(dim.width / 3), dim.height/3, 10, 10);
 
     int delta3 = 2;
     for (int out = 0; out < dim.width/4; out+=delta3) {
