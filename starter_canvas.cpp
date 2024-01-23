@@ -36,11 +36,11 @@ void MyCanvas::fillRect(const GRect& rect, const GColor& color) {
         GRoundToInt(color.g * 255), GRoundToInt(color.b * 255));
 
         for (int y = top; y < bottom; ++y) {
-            GPixel* curr = fDevice.getAddr(left, y);
+            // GPixel* curr = fDevice.getAddr(left, y);
             for (int x = left; x < right; ++x) {
-                // GPixel* curr = fDevice.getAddr(x, y);
+                GPixel* curr = fDevice.getAddr(x, y);
                 *curr = newP;
-                curr++;
+                // curr++;
                 //just need to comput the first address, and then go to the next one after
             }
         }
