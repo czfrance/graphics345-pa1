@@ -90,17 +90,52 @@ std::string GDrawSomething(GCanvas* canvas, GISize dim) {
     // ...
     // canvas->clear(...);
     // canvas->fillRect(...);
-    GRect rect = GRect::XYWH(-25, -25, 70, 70);
+
+    //size of canvas: 256x256
+
+    //make the background
+    GRect rect = GRect::XYWH(0, -10, dim.width, 30);
 
     int delta = 8;
-    for (int i = 0; i < 200; i += delta) {
-        float r = 1-(i / 200.0f);
-        float g = 1-(std::abs(std::cos(i/40.0f)));
-        float b = 1-(std::abs(std::sin(i/50.0f)));
+    for (int i = 0; i < 200; i+=2) {
+        float r = i / 200.0f;
+        float g = std::abs(std::cos(i/40.0f));
+        float b = std::abs(std::sin(i/50.0f));
         GColor color = {r, g, b, 0.3f};
         canvas->fillRect(rect, color);
-        rect = rect.offset(delta, delta);
+        rect = rect.offset(0, delta);
     }
 
-    return "idk what this is help";
+
+    GRect rect2 = GRect::XYWH(dim.width / 8, dim.height/4, 20, 20);
+
+    int delta2 = 5;
+    for (int out = 0; out < dim.width/2; out+=delta2) {
+        for (int i = 0; i < dim.width/2; i+=delta2) {
+            float r = std::abs(std::sin(i/50.0f));
+            float g = std::abs(std::sin(i/100.0f));
+            float b = i / dim.width/2;
+            GColor color = {r, g, b, 0.5f};
+            canvas->fillRect(rect2, color);
+            rect2 = rect2.offset(delta2, 0);
+        }
+        rect2 = rect2.offset(-dim.width/2, delta2);
+    }
+
+    GRect rect3 = GRect::XYWH(dim.width-(dim.width / 2.5), dim.height/2.5, 10, 10);
+
+    int delta3 = 2;
+    for (int out = 0; out < dim.width/4; out+=delta3) {
+        for (int i = dim.width/4; i > 0; i-=delta3) {
+            float r = std::abs(std::sin(i/80.0f));
+            float g = i / dim.width/2;
+            float b = std::abs(std::sin(i/30.0f));
+            GColor color = {r, g, b, 0.5f};
+            canvas->fillRect(rect3, color);
+            rect3 = rect3.offset(-delta3, 0);
+        }
+        rect3 = rect3.offset(dim.width/4, delta3);
+    }
+
+    return "my drawing";
 }
